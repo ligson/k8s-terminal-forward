@@ -52,7 +52,7 @@ public class WebSocketSessionManager {
         sidSessionMap.put(sid, session);
         sessionMap.put(session.getId(), session);
         ExecParamVo param = getExecParamVoMap(sid);
-        Connection conn = k8SClient.getConnection(param.getScheme(), param.getHost(), param.getPort(), param.getNamespace(), param.getPodName(), param.getContainerName(), param.getToken(), this, sid);
+        Connection conn = k8SClient.getExecConnection(param.getScheme(), param.getHost(), param.getPort(), param.getNamespace(), param.getPodName(), param.getContainerName(), param.getToken(), this, sid);
         connectionMap.put(sid, conn);
         conn.connect();
     }
