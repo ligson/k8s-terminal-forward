@@ -16,10 +16,14 @@ import java.util.UUID;
 public class TerminalController {
     private final WebSocketSessionManager webSocketSessionManager;
     private final K8SClient k8SClient;
+    private final SshTerminalEndpoint sshTerminalEndpoint;
 
-    public TerminalController(WebSocketSessionManager webSocketSessionManager, K8SClient k8SClient) {
+    public TerminalController(WebSocketSessionManager webSocketSessionManager,
+                              K8SClient k8SClient,
+                              SshTerminalEndpoint sshTerminalEndpoint) {
         this.webSocketSessionManager = webSocketSessionManager;
         this.k8SClient = k8SClient;
+        this.sshTerminalEndpoint = sshTerminalEndpoint;
     }
 
     @PostMapping("/execInit")
@@ -64,6 +68,17 @@ public class TerminalController {
         ApiResult apiResult = new ApiResult();
         apiResult.setSuccess(true);
         apiResult.put("token", token);
+        return apiResult;
+    }
+
+
+    @PostMapping("/initSsh")
+    public ApiResult execInit(@RequestBody SshReqVo sshReqVo) {
+        String id = UUID.randomUUID().toString();
+        sshTerminalEndpoint.putSSHParam(id, sshReqVo);
+        ApiResult apiResult = new ApiResult();
+        apiResult.setSuccess(true);
+        apiResult.put("sid", id);
         return apiResult;
     }
 }
