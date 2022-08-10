@@ -88,8 +88,7 @@ public class Connection {
                         bindChannel(socketChannel, handler);
                     }
                 });
-
-        cf = boot.connect(websocketURI.getHost(), websocketURI.getPort());
+            cf = boot.connect(websocketURI.getHost(), websocketURI.getPort() == -1 ? 443:websocketURI.getPort());
         //阻塞等待是否握手成功
         //cf = handshaker.handshake(channel);
         cf.addListener((ChannelFutureListener) channelFuture -> {
